@@ -13,6 +13,10 @@ const books = [{
 {
   title: 'test2-mongo',
   author: 'test2-author'
+},
+{
+  title: 'test3-mongo',
+  author: 'test3-author'
 }
 ];
 
