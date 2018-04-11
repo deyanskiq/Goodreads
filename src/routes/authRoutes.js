@@ -33,14 +33,14 @@ function router(nav) {
           debug(error);
         }
       }());
+    })
+    .get((req, res) => {
+      res.render('signup', {
+        nav,
+        title: 'Sign up'
+      });
     });
   authRouter.route('/signin')
-    .get((req, res) => {
-      res.render('signin', {
-        nav,
-        title: 'Sign in'
-      });
-    })
     .post(passport.authenticate('local', {
       successRedirect: '/auth/profile',
       failureRedirect: '/'

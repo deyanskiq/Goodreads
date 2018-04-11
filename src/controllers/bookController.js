@@ -20,10 +20,14 @@ function bookController(bookService, nav) {
         const col = await db.collection('books');
 
         const books = await col.find().toArray();
+        // books.forEach(async (book) => {
+        //   book.details = await bookService.getBookById(book.bookId);
+        // });
+        debug(books.details);
         res.render('bookListView', {
-          nav,
           title: 'Library',
-          books
+          books,
+          nav
         });
       } catch (error) {
         debug(error.stack);
@@ -60,8 +64,10 @@ function bookController(bookService, nav) {
       } catch (error) {
         debug(error.stack);
       }
+      client.close();
     }());
   }
+
   function middleware(req, res, next) {
     if (req.user) {
       next();

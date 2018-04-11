@@ -12,18 +12,18 @@ const books = [{
   bookId: 656
 },
 {
-  title: 'test2-mongo',
-  author: 'test2-author',
+  title: 'Les Misérables',
+  author: 'Victor Hugo',
   bookId: 24280
 },
 {
-  title: 'test3-mongo',
-  author: 'test3-author',
-  bookId: 24280
+  title: 'Harry Potter and the Half-Blood Prince (Harry Potter, #6)',
+  author: 'J.K. Rowling',
+  bookId: 1
 }
 ];
 
-function router(nav) {
+function router() {
   adminRouter.route('/')
     .get((req, res) => {
       const url = 'mongodb://localhost:27017';

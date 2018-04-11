@@ -4,6 +4,7 @@ module.exports = {
         "comma-dangle":0,
         "linebreak-style": 0,
         "global-require": 0,
-        "arrow-body-style": ["error", "always"]
+        "arrow-body-style": ["error", "always"],
+        "no-param-reassign": 0
     }
 };
