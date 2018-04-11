@@ -7,16 +7,19 @@ const adminRouter = express.Router();
 const debug = require('debug')('app:adminRoutes');
 
 const books = [{
-  title: 'test-mongo',
-  author: 'test-author'
+  title: 'War and Peace',
+  author: 'Lev Tolstoy',
+  bookId: 656
 },
 {
   title: 'test2-mongo',
-  author: 'test2-author'
+  author: 'test2-author',
+  bookId: 24280
 },
 {
   title: 'test3-mongo',
-  author: 'test3-author'
+  author: 'test3-author',
+  bookId: 24280
 }
 ];
 

@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "axios": "0.18.0",
     "body-parser": "1.18.2",
     "bootstrap": "4.0.0",
     "chalk": "2.3.2",
@@ -22,7 +23,8 @@
     "passport-local": "1.0.0",
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
-    "sequelize": "4.37.5"
+    "sequelize": "4.37.5",
+    "xml2js": "0.4.19"
   },
   "devDependencies": {
     "eslint-config-airbnb-base": "12.1.0",
