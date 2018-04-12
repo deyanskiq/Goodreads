@@ -42,7 +42,7 @@ function router(nav) {
     });
   authRouter.route('/signin')
     .post(passport.authenticate('local', {
-      successRedirect: '/books',
+      successRedirect: '/auth/profile',
       failureRedirect: '/'
     }));
   authRouter.route('/logout')
@@ -60,7 +60,11 @@ function router(nav) {
       }
     })
     .get((req, res) => {
-      res.json(req.user);
+      res.render('profile', {
+        nav,
+        title: 'Profile',
+        user: req.user
+      });
     });
   return authRouter;
 }
