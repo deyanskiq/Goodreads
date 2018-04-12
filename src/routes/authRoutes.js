@@ -42,7 +42,7 @@ function router(nav) {
     });
   authRouter.route('/signin')
     .post(passport.authenticate('local', {
-      successRedirect: '/auth/profile',
+      successRedirect: '/books',
       failureRedirect: '/'
     }));
   authRouter.route('/logout')
@@ -53,7 +53,7 @@ function router(nav) {
 
   authRouter.route('/profile')
     .all((req, res, next) => {
-      if (req.user.role === 'user') {
+      if (req.user && req.user.role === 'user') {
         next();
       } else {
         res.redirect('/');

@@ -5,6 +5,7 @@ module.exports = {
         "linebreak-style": 0,
         "global-require": 0,
         "arrow-body-style": ["error", "always"],
-        "no-param-reassign": 0
+        "no-param-reassign": 0,
+        "no-underscore-dangle": 0
     }
 };

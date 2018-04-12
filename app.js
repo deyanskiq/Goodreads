@@ -17,6 +17,14 @@ const nav = [{
 {
   link: '/authors',
   title: 'Authors'
+},
+{
+  link: '/about',
+  title: 'About'
+},
+{
+  link: '/auth/logout',
+  title: 'Log out'
 }
 ];
 
