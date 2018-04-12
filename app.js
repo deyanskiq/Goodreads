@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 
@@ -29,6 +30,7 @@ const nav = [{
 ];
 
 app.use(morgan('tiny'));
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

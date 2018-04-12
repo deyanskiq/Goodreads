@@ -1,53 +1,15 @@
 const express = require('express');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
-
-const saltRounds = 10;
-
-const {
-  MongoClient
-} = require('mongodb');
-const debug = require('debug')('app:authRoutes');
 
 const authRouter = express.Router();
 
 function router(nav) {
   authRouter.route('/signup')
-    .post((req, res) => {
-      const {
-        username,
-        password
-      } = req.body;
-
-
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'libraryApp';
-
-      bcrypt.hash(password, saltRounds, (err, hash) => {
-        (async function mongo() {
-          let client;
-          try {
-            client = await MongoClient.connect(url);
-            debug('Connected correctly to server');
-
-            const db = client.db(dbName);
-
-            const col = db.collection('users');
-            const user = {
-              username,
-              hash,
-              role: 'user'
-            };
-            const results = await col.insertOne(user);
-            req.login(results.ops[0], () => {
-              res.redirect('/auth/profile');
-            });
-          } catch (error) {
-            debug(error);
-          }
-        }());
-      });
-    })
+    .post(passport.authenticate('local-signup', {
+      successRedirect: '/auth/profile',
+      failureRedirect: '/auth/signup',
+      failureFlash: true
+    }))
     .get((req, res) => {
       res.render('signup', {
         nav,
@@ -55,7 +17,7 @@ function router(nav) {
       });
     });
   authRouter.route('/signin')
-    .post(passport.authenticate('local', {
+    .post(passport.authenticate('local-signin', {
       successRedirect: '/auth/profile',
       failureRedirect: '/',
       failureFlash: true

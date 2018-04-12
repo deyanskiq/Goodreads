@@ -8,5 +8,6 @@ module.exports = {
         "no-param-reassign": 0,
         "no-underscore-dangle": 0,
         "eol-last": 0,
+        "no-else-return": 0
     }
 };

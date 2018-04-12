@@ -7,10 +7,13 @@ const {
   MongoClient
 } = require('mongodb');
 const bcrypt = require('bcrypt');
-// const flash = require('connect-flash');
+const flash = require('connect-flash');
+
+const saltRounds = 10;
+
 
 module.exports = function localStrategy() {
-  passport.use('local', new Strategy({
+  passport.use('local-signin', new Strategy({
     usernameField: 'username',
     passwordField: 'password'
   }, (username, password, done) => {
@@ -42,5 +45,43 @@ module.exports = function localStrategy() {
       }
       client.close();
     }());
+  }));
+  passport.use('local-signup', new Strategy({
+    usernameField: 'username',
+    passwordField: 'password'
+  }, (username, password, done) => {
+    const url = 'mongodb://localhost:27017';
+    const dbName = 'libraryApp';
+
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      (async function mongo() {
+        let client;
+        try {
+          client = await MongoClient.connect(url);
+          debug('Connected correctly to server');
+
+          const db = client.db(dbName);
+
+          const col = db.collection('users');
+          let user = await col.findOne({
+            username
+          });
+
+          if (user) {
+            done(null, false, flash('signupMessage', 'That email is already taken.'));
+          } else {
+            user = {
+              username,
+              hash,
+              role: 'user'
+            };
+          }
+          const results = await col.insertOne(user);
+          done(null, results.ops[0]);
+        } catch (error) {
+          debug(error);
+        }
+      }());
+    });
   }));
 };
