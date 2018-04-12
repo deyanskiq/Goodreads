@@ -1,11 +1,11 @@
-const debug = require('debug')('app:bookController');
+const debug = require('debug')('app:authorController');
 
 const {
   MongoClient,
   ObjectID
 } = require('mongodb');
 
-function bookController(bookService, nav) {
+function authorController(authorService, nav) {
   function getIndex(req, res) {
     const url = 'mongodb://localhost:27017';
     const dbName = 'libraryApp';
@@ -17,16 +17,16 @@ function bookController(bookService, nav) {
 
         const db = client.db(dbName);
 
-        const col = await db.collection('books');
+        const col = await db.collection('authors');
 
-        const books = await col.find().toArray();
-        // books.forEach(async (book) => {
-        //   book.details = await bookService.getBookById(book.bookId);
+        const authors = await col.find().toArray();
+        // authors.forEach(async (author) => {
+        //   author.details = await authorService.getauthorById(author.authorId);
         // });
-        debug(books.details);
-        res.render('bookListView', {
+        debug(authors.details);
+        res.render('authorListView', {
           title: 'Library',
-          books,
+          authors,
           nav
         });
       } catch (error) {
@@ -49,16 +49,16 @@ function bookController(bookService, nav) {
         client = await MongoClient.connect(url);
         debug('Connected to the server');
         const db = client.db(dbName);
-        const col = await db.collection('books');
+        const col = await db.collection('authors');
 
-        const book = await col.findOne({
+        const author = await col.findOne({
           _id: new ObjectID(id)
         });
-        debug(book);
-        book.details = await bookService.getBookById(book.bookId);
-        res.render('bookView', {
+        debug(author);
+        author.details = await authorService.getAuthorById(author.authorId);
+        res.render('authorView', {
           title: 'Library',
-          book,
+          author,
           nav
         });
       } catch (error) {
@@ -81,4 +81,4 @@ function bookController(bookService, nav) {
     middleware
   };
 }
-module.exports = bookController;
+module.exports = authorController;

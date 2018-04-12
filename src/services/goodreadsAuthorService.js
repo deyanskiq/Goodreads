@@ -1,22 +1,22 @@
 const axios = require('axios');
 const xml2js = require('xml2js');
-const debug = require('debug')('app:goodreadsService');
+const debug = require('debug')('app:goodreadsBookService');
 
 const parser = xml2js.Parser({
   explicitArray: false
 });
 
-function goodReadsService() {
-  function getBookById(id) {
+function goodReadsBookService() {
+  function getAuthorById(id) {
     return new Promise((resolve, reject) => {
-      axios.get(`https://www.goodreads.com/book/show/${id}.xml?key=kG4jZqX6P5XcVT10HDOQ`)
+      axios.get(`https://www.goodreads.com/author/show/${id}.xml?key=kG4jZqX6P5XcVT10HDOQ`)
         .then((response) => {
           parser.parseString(response.data, (err, result) => {
             if (err) {
               debug(err);
             } else {
               debug(result);
-              resolve(result.GoodreadsResponse.book);
+              resolve(result.GoodreadsResponse.author);
             }
           });
         })
@@ -27,7 +27,7 @@ function goodReadsService() {
     });
   }
   return {
-    getBookById
+    getAuthorById
   };
 }
-module.exports = goodReadsService();
+module.exports = goodReadsBookService();

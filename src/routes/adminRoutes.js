@@ -23,6 +23,20 @@ const books = [{
 }
 ];
 
+const authors = [{
+  name: 'Lev Tolstoy',
+  authorId: 128382
+},
+{
+  name: 'Victor Hugo',
+  authorId: 13661
+},
+{
+  name: 'J.K. Rowling',
+  authorId: 1077326
+}
+];
+
 function router() {
   adminRouter.route('/')
     .get((req, res) => {
@@ -37,8 +51,11 @@ function router() {
 
           const db = client.db(dbName);
 
-          const response = await db.collection('books').insertMany(books);
-          res.json(response);
+          const responseBooks = await db.collection('books').insertMany(books);
+          const responseAuthors = await db.collection('authors').insertMany(authors);
+
+          res.json(responseBooks);
+          res.json(responseAuthors);
         } catch (error) {
           debug(error.stack);
         }

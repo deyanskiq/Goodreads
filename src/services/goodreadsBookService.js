@@ -1,12 +1,12 @@
 const axios = require('axios');
 const xml2js = require('xml2js');
-const debug = require('debug')('app:goodreadsService');
+const debug = require('debug')('app:goodreadsBookService');
 
 const parser = xml2js.Parser({
   explicitArray: false
 });
 
-function goodReadsService() {
+function goodReadsBookService() {
   function getBookById(id) {
     return new Promise((resolve, reject) => {
       axios.get(`https://www.goodreads.com/book/show/${id}.xml?key=kG4jZqX6P5XcVT10HDOQ`)
@@ -30,4 +30,4 @@ function goodReadsService() {
     getBookById
   };
 }
-module.exports = goodReadsService();
+module.exports = goodReadsBookService();

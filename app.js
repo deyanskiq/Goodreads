@@ -39,10 +39,12 @@ require('./src/config/passport.js')(app);
 app.use(express.static(path.join(__dirname, '/public/')));
 
 const bookRouter = require('./src/routes/bookRoutes')(nav);
+const authorRouter = require('./src/routes/authorRoutes')(nav);
 const adminRouter = require('./src/routes/adminRoutes')(nav);
 const authRouter = require('./src/routes/authRoutes')(nav);
 
 app.use('/books', bookRouter);
+app.use('/authors', authorRouter);
 app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
