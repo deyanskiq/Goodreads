@@ -39,7 +39,6 @@ function router(nav) {
               role: 'user'
             };
             const results = await col.insertOne(user);
-            debug(results);
             req.login(results.ops[0], () => {
               res.redirect('/auth/profile');
             });
@@ -58,7 +57,8 @@ function router(nav) {
   authRouter.route('/signin')
     .post(passport.authenticate('local', {
       successRedirect: '/auth/profile',
-      failureRedirect: '/'
+      failureRedirect: '/',
+      failureFlash: true
     }));
   authRouter.route('/logout')
     .get((req, res) => {

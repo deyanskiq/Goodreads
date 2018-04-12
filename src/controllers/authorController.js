@@ -23,7 +23,6 @@ function authorController(authorService, nav) {
         // authors.forEach(async (author) => {
         //   author.details = await authorService.getauthorById(author.authorId);
         // });
-        debug(authors.details);
         res.render('authorListView', {
           title: 'Library',
           authors,
@@ -54,7 +53,6 @@ function authorController(authorService, nav) {
         const author = await col.findOne({
           _id: new ObjectID(id)
         });
-        debug(author);
         author.details = await authorService.getAuthorById(author.authorId);
         res.render('authorView', {
           title: 'Library',

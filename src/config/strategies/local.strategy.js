@@ -7,9 +7,10 @@ const {
   MongoClient
 } = require('mongodb');
 const bcrypt = require('bcrypt');
+// const flash = require('connect-flash');
 
 module.exports = function localStrategy() {
-  passport.use(new Strategy({
+  passport.use('local', new Strategy({
     usernameField: 'username',
     passwordField: 'password'
   }, (username, password, done) => {
@@ -30,7 +31,6 @@ module.exports = function localStrategy() {
         });
 
         bcrypt.compare(password, user.hash, (err, res) => {
-          debug(res);
           if (res === true) {
             done(null, user);
           } else {
