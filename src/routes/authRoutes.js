@@ -1,5 +1,9 @@
 const express = require('express');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
+
 const {
   MongoClient
 } = require('mongodb');
@@ -10,29 +14,40 @@ const authRouter = express.Router();
 function router(nav) {
   authRouter.route('/signup')
     .post((req, res) => {
-      const { username, password } = req.body;
+      const {
+        username,
+        password
+      } = req.body;
+
+
       const url = 'mongodb://localhost:27017';
       const dbName = 'libraryApp';
 
-      (async function mongo() {
-        let client;
-        try {
-          client = await MongoClient.connect(url);
-          debug('Connected correctly to server');
+      bcrypt.hash(password, saltRounds, (err, hash) => {
+        (async function mongo() {
+          let client;
+          try {
+            client = await MongoClient.connect(url);
+            debug('Connected correctly to server');
 
-          const db = client.db(dbName);
+            const db = client.db(dbName);
 
-          const col = db.collection('users');
-          const user = { username, password, role: 'user' };
-          const results = await col.insertOne(user);
-          debug(results);
-          req.login(results.ops[0], () => {
-            res.redirect('/auth/profile');
-          });
-        } catch (error) {
-          debug(error);
-        }
-      }());
+            const col = db.collection('users');
+            const user = {
+              username,
+              hash,
+              role: 'user'
+            };
+            const results = await col.insertOne(user);
+            debug(results);
+            req.login(results.ops[0], () => {
+              res.redirect('/auth/profile');
+            });
+          } catch (error) {
+            debug(error);
+          }
+        }());
+      });
     })
     .get((req, res) => {
       res.render('signup', {
