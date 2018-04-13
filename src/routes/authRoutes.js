@@ -13,7 +13,8 @@ function router(nav) {
     .get((req, res) => {
       res.render('signup', {
         nav,
-        title: 'Sign up'
+        title: 'Sign up',
+        message: req.flash('signupMessage')
       });
     });
   authRouter.route('/signin')

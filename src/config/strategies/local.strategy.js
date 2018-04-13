@@ -7,16 +7,19 @@ const {
   MongoClient
 } = require('mongodb');
 const bcrypt = require('bcrypt');
-const flash = require('connect-flash');
 
 const saltRounds = 10;
 
 
 module.exports = function localStrategy() {
+  // we are using named strategies since we have one for login and one for signup
+  // by default, if there was no name, it would just be called 'local'
+
   passport.use('local-signin', new Strategy({
     usernameField: 'username',
-    passwordField: 'password'
-  }, (username, password, done) => {
+    passwordField: 'password',
+    passReqToCallback: true
+  }, (req, username, password, done) => {
     const url = 'mongodb://localhost:27017';
     const dbName = 'libraryApp';
 
@@ -32,14 +35,17 @@ module.exports = function localStrategy() {
         const user = await col.findOne({
           username
         });
-
-        bcrypt.compare(password, user.hash, (err, res) => {
-          if (res === true) {
-            done(null, user);
-          } else {
-            done(null, false);
-          }
-        });
+        if (user) {
+          bcrypt.compare(password, user.hash, (err, res) => {
+            if (res === true) {
+              done(null, user);
+            } else {
+              done(null, false, req.flash('loginMessage', 'Wrong username or password'));
+            }
+          });
+        } else {
+          done(null, false, req.flash('loginMessage', 'Wrong username or password'));
+        }
       } catch (error) {
         debug(error.stack);
       }
@@ -48,8 +54,9 @@ module.exports = function localStrategy() {
   }));
   passport.use('local-signup', new Strategy({
     usernameField: 'username',
-    passwordField: 'password'
-  }, (username, password, done) => {
+    passwordField: 'password',
+    passReqToCallback: true
+  }, (req, username, password, done) => {
     const url = 'mongodb://localhost:27017';
     const dbName = 'libraryApp';
 
@@ -68,7 +75,7 @@ module.exports = function localStrategy() {
           });
 
           if (user) {
-            done(null, false, flash('signupMessage', 'That email is already taken.'));
+            done(null, false, req.flash('signupMessage', 'That username is already taken.'));
           } else {
             user = {
               username,

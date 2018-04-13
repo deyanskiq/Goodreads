@@ -51,8 +51,15 @@ app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Library'
+  res.render(
+    'index',
+    { message: req.flash('loginMessage') }
+  );
+});
+
+app.get('/about', (req, res) => {
+  res.render('about', {
+    title: 'About'
   });
 });
 

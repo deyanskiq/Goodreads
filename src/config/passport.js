@@ -1,6 +1,6 @@
 const passport = require('passport');
 require('./strategies/local.strategy')();
-// const debug = require('debug')('app:passport');
+//  const debug = require('debug')('app:passport');
 // const {
 //   MongoClient
 // } = require('mongodb');
