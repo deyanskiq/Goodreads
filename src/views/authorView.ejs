@@ -140,12 +140,20 @@
                         </div>
                         <!--/stories-->
                         <!-- <a href="/" class="btn btn-primary pull-right btnNext">More <i class="glyphicon glyphicon-chevron-right"></i></a>
-        -->
+        -->                 <div>
                         <a href="/auth/logout" class="btn btn-primary pull-right btnNext">Next author
                             <i class="glyphicon glyphicon-chevron-right"></i>
                         </a>
-
-                    </div>
+                        </div>
+                        <div class= "author-list">
+                        <hr>
+                            <h4> Bibliography </h4>
+                            <%for(var i=0; i<author.details.books.book.length;i++){%>
+                            <img alt="" src="<%=author.details.books.book[i].image_url%>" style="width:100px;height:100px" class="img-circle aax">
+                             <%=author.details.books.book[i].title %>
+                            <%}%>
+                        </div>
+                        </div>
                 </div>
 
 

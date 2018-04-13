@@ -54,6 +54,7 @@ function authorController(authorService, nav) {
           _id: new ObjectID(id)
         });
         author.details = await authorService.getAuthorById(author.authorId);
+        debug(author.details);
         res.render('authorView', {
           title: 'Library',
           author,
