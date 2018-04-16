@@ -1,7 +1,6 @@
 const express = require('express');
-const {
-  MongoClient
-} = require('mongodb');
+const Book = require('../models/Book');
+const Author = require('../models/Author');
 
 const adminRouter = express.Router();
 const debug = require('debug')('app:adminRoutes');
@@ -10,16 +9,19 @@ const books = [{
   title: 'War and Peace',
   author: 'Lev Tolstoy',
   bookId: 656
+  // owner: 128382
 },
 {
   title: 'Les Misérables',
   author: 'Victor Hugo',
   bookId: 24280
+  // owner: 13661
 },
 {
   title: 'Harry Potter and the Half-Blood Prince (Harry Potter, #6)',
   author: 'J.K. Rowling',
   bookId: 1
+  // owner: 1077326
 }
 ];
 
@@ -40,26 +42,26 @@ const authors = [{
 function router() {
   adminRouter.route('/')
     .get((req, res) => {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'libraryApp';
+      // const url = 'mongodb://localhost:27017';
+      // const dbName = 'libraryApp';
 
       (async function mongo() {
-        let client;
+        // let client;
         try {
-          client = await MongoClient.connect(url);
-          debug('Connected to the server');
+          // client = await MongoClient.connect(url);
+          // debug('Connected to the server');
 
-          const db = client.db(dbName);
+          // const db = client.db(dbName);
 
-          const responseBooks = await db.collection('books').insertMany(books);
-          const responseAuthors = await db.collection('authors').insertMany(authors);
+          const responseBooks = await Book.insertMany(books);
+          const responseAuthors = await Author.insertMany(authors);
 
           res.json(responseBooks);
           res.json(responseAuthors);
         } catch (error) {
           debug(error.stack);
         }
-        client.close();
+        // client.close();
       }());
     });
   return adminRouter;
