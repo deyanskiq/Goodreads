@@ -9,8 +9,8 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const app = express();
-
 const port = process.env.PORT || 3000;
+
 const nav = [{
   link: '/books',
   title: 'Books'
