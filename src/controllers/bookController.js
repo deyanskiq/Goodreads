@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Book = require('../models/Book');
 
 function bookController(bookService, nav) {
+  // do not save 'owner' object at the database. We have access to it only on call time
   // const promise = Book.find({}).populate('owner').exec();
   // promise.then(function test(books) {
   //   debug(books);
@@ -66,6 +67,8 @@ function bookController(bookService, nav) {
     } = req.params;
     try {
       (async function mongo() {
+        mongoose.connect('mongodb://localhost/libraryApp');
+        debug('Connected to the server');
         const book = await Book.findById(id);
         book.details = await bookService.getBookById(book.bookId);
         res.render('bookView', {

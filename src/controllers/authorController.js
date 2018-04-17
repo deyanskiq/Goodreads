@@ -55,6 +55,8 @@ function authorController(authorService, nav) {
     } = req.params;
     try {
       (async function mongo() {
+        mongoose.connect('mongodb://localhost/libraryApp');
+        debug('Connected to the server');
         const author = await Author.findById(id);
         author.details = await authorService.getAuthorById(author.authorId);
         res.render('authorView', {
